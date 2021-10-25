@@ -28,7 +28,7 @@ async def download_http_msg(m, status_message):
     downloader.start(blocking=False)
     c_time = time.time()
     while not downloader.isFinished():
-        total_length = downloader.filesize if downloader.filesize else None
+        total_length = downloader.filesize or None
         downloaded = downloader.get_dl_size()
         display_message = ""
         now = time.time()
@@ -43,7 +43,7 @@ async def download_http_msg(m, status_message):
         )
         estimated_total_time = downloader.get_eta(human=True)
         try:
-            current_message = f"__**Trying to download...**__\n"
+            current_message = '__**Trying to download...**__\n'
             current_message += f"**URL:** `{url}`\n"
             current_message += (
                 f"**File Name:** `{urllib.parse.unquote(custom_file_name)}`\n"
@@ -65,7 +65,6 @@ async def download_http_msg(m, status_message):
             pass
         except Exception as e:
             LOGGER.info(str(e))
-            pass
     if os.path.exists(download_file_path):
         new_file_name = urllib.parse.unquote(download_file_path)
         shutil.move(download_file_path, new_file_name)  # Change file Name
@@ -87,7 +86,7 @@ async def download_http_link(status_message, dlurl):
     downloader.start(blocking=False)
     c_time = time.time()
     while not downloader.isFinished():
-        total_length = downloader.filesize if downloader.filesize else None
+        total_length = downloader.filesize or None
         downloaded = downloader.get_dl_size()
         display_message = ""
         now = time.time()
@@ -102,7 +101,7 @@ async def download_http_link(status_message, dlurl):
         )
         estimated_total_time = downloader.get_eta(human=True)
         try:
-            current_message = f"__**Trying to download...**__\n"
+            current_message = '__**Trying to download...**__\n'
             current_message += f"**URL:** `{url}`\n"
             current_message += (
                 f"**File Name:** `{urllib.parse.unquote(custom_file_name)}`\n"
@@ -124,7 +123,6 @@ async def download_http_link(status_message, dlurl):
             pass
         except Exception as e:
             LOGGER.info(str(e))
-            pass
     if os.path.exists(download_file_path):
         new_file_name = urllib.parse.unquote(download_file_path)
         shutil.move(download_file_path, new_file_name)  # Change file Name

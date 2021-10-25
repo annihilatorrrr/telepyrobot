@@ -86,9 +86,12 @@ async def eval(c: TelePyroBot, m: Message):
 
 async def aexec(code, c, m):
     exec(
-        f"async def __aexec(c: TelePyroBot, m: Message): "
-        + "".join(f"\n {l}" for l in code.split("\n"))
+        (
+            'async def __aexec(c: TelePyroBot, m: Message): '
+            + "".join(f"\n {l}" for l in code.split("\n"))
+        )
     )
+
     return await locals()["__aexec"](c, m)
 
 

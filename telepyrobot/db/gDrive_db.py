@@ -47,17 +47,18 @@ def set_parent_id(chat_id, parent_id="root"):
 def get_credential(chat_id):
     with INSERTION_LOCK:
         saved_cred = SESSION.query(gDriveCreds).get(chat_id)
-        creds = None
-        if saved_cred is not None:
-            creds = pickle.loads(saved_cred.credential_string)
-        return creds
+        return (
+            pickle.loads(saved_cred.credential_string)
+            if saved_cred is not None
+            else None
+        )
 
 
 def get_parent_id(chat_id):
     with INSERTION_LOCK:
         saved_cred = SESSION.query(gDriveCreds).get(chat_id)
         if saved_cred:
-            parent_id = saved_cred.parent_id if saved_cred.parent_id else "root"
+            parent_id = saved_cred.parent_id or "root"
         return parent_id
 
 
