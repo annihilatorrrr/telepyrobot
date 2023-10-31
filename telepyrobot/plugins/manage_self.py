@@ -87,7 +87,7 @@ async def update_profile(c: TelePyroBot, m: Message):
             except Exception as ef:
                 await m.edit_text(f"**Error:**\n`{ef}`")
                 return
-        elif msgreply and not update[2]:
+        elif msgreply:
             try:
                 await c.update_bio(first_name=f"{replytxt}")
                 await m.edit_text(f"**Updated First name to:**\n`{replytxt}`")
@@ -95,7 +95,6 @@ async def update_profile(c: TelePyroBot, m: Message):
                 await m.edit_text(f"**Error:**\n`{ef}`")
                 return
 
-    # Set last_name
     elif update[1] == "lname":
         if update[2]:
             try:
@@ -104,7 +103,7 @@ async def update_profile(c: TelePyroBot, m: Message):
             except Exception as ef:
                 await m.edit_text(f"**Error:**\n`{ef}`")
                 return
-        elif msgreply and not update[2]:
+        elif msgreply:
             try:
                 await c.update_bio(last_name=f"{replytxt}")
                 await m.edit_text(f"**Updated Last name to:**\n`{replytxt}`")
@@ -112,28 +111,26 @@ async def update_profile(c: TelePyroBot, m: Message):
                 await m.edit_text(f"**Error:**\n`{ef}`")
                 return
 
-    # Remove last_name
     elif update[1] == "rmlname":
         try:
             await c.update_bio(last_name="")
-            await m.edit_text(f"**Removed Last name**")
+            await m.edit_text("**Removed Last name**")
         except Exception as ef:
             await m.edit_text(f"**Error:**\n`{ef}`")
             return
 
-    # Set bio
     elif update[1] == "bio":
         if update[2]:
             try:
                 await c.update_bio(bio=f"{update[2]}")
-                await m.edit_text(f"**Updated Bio**")
+                await m.edit_text("**Updated Bio**")
             except Exception as ef:
                 await m.edit_text(f"**Error:**\n`{ef}`")
                 return
-        elif msgreply and not update[2]:
+        elif msgreply:
             try:
                 await c.update_bio(bio=f"{replytxt}")
-                await m.edit_text(f"**Updated Bio to replied message**")
+                await m.edit_text("**Updated Bio to replied message**")
             except Exception as ef:
                 await m.edit_text(f"**Error:**\n`{ef}`")
     return
@@ -157,7 +154,7 @@ async def set_username(c: TelePyroBot, m: Message):
 async def remove_username(c: TelePyroBot, m: Message):
     try:
         await c.update_username("")
-        await m.edit_text(f"**Removed Username**")
+        await m.edit_text("**Removed Username**")
     except Exception as ef:
         await m.edit_text(f"**Error:**\n{ef}")
     return
@@ -168,7 +165,7 @@ async def remove_pfp(c: TelePyroBot, m: Message):
     photos = c.get_profile_photos("me")
     try:
         c.delete_profile_photos([p.file_id for p in photos[1:]])
-        await m.edit_text(f"**Removed Profile Pictures**")
+        await m.edit_text("**Removed Profile Pictures**")
     except Exception as ef:
         await m.edit_text(f"**Error:**\n{ef}")
     return

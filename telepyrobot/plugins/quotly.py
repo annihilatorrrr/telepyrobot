@@ -39,8 +39,6 @@ async def quotly(c: TelePyroBot, m: Message):
                     f"```Making a Quote```\nProcessing {progress}%",
                     parse_mode="md",
                 )
-                if progress >= 100:
-                    pass
             except Exception as ef:
                 await m.edit_text(f"**ERROR:**\n{ef}", parse_mode="md")
                 p += 1

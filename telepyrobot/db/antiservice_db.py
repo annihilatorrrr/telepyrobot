@@ -50,10 +50,7 @@ def disable_antiservice(chat_id, vbool=False):
 def get_antiservice(chat_id):
     try:
         x = SESSION.query(AntiService).get(str(chat_id))
-        if x.is_enabled:
-            return True
-        else:
-            return False
+        return bool(x.is_enabled)
     finally:
         SESSION.close()
 
@@ -61,11 +58,8 @@ def get_antiservice(chat_id):
 def __load_mychats():
     global ANTISERVICE_CHATS
     try:
-        ANTISERVICE_CHATS = []
         qall = SESSION.query(AntiService).all()
-        for x in qall:
-            if x.is_enabled:
-                ANTISERVICE_CHATS.append(x.chat_id)
+        ANTISERVICE_CHATS = [x.chat_id for x in qall if x.is_enabled]
     finally:
         SESSION.close()
 

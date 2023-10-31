@@ -63,7 +63,7 @@ async def paste_bin(c: TelePyroBot, m: Message):
     paste_store_base_url_rp = urlparse(paste_store_url)
 
     paste_store_base_url = (
-        paste_store_base_url_rp.scheme + "://" + paste_store_base_url_rp.netloc
+        f"{paste_store_base_url_rp.scheme}://{paste_store_base_url_rp.netloc}"
     )
 
     async with aiohttp.ClientSession() as session:
@@ -73,7 +73,7 @@ async def paste_bin(c: TelePyroBot, m: Message):
     t_w_attempt = key_nikalo(response_jn)
     required_url = json.dumps(t_w_attempt, sort_keys=True, indent=4) + "\n\n #ERROR"
     if t_w_attempt is not None:
-        required_url = paste_store_base_url + "/" + t_w_attempt
+        required_url = f"{paste_store_base_url}/{t_w_attempt}"
     await m.edit_text(
         f"**Pasted to {default_paste}**:\n{required_url}", disable_web_page_preview=True
     )

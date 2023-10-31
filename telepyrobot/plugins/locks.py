@@ -79,9 +79,7 @@ async def lock_perm(c: TelePyroBot, m: Message):
             await m.delete()
             await c.send_message(
                 PRIVATE_GROUP_ID,
-                "#LOCK\n\nCHAT: `{}` (`{}`)\nPERMISSIONS: `All Permissions`".format(
-                    get_perm.title, chat_id
-                ),
+                f"#LOCK\n\nCHAT: `{get_perm.title}` (`{chat_id}`)\nPERMISSIONS: `All Permissions`",
             )
 
         except Exception as e_f:
@@ -166,9 +164,7 @@ async def lock_perm(c: TelePyroBot, m: Message):
         await m.delete()
         await c.send_message(
             PRIVATE_GROUP_ID,
-            "#LOCK\n\nCHAT: `{}` (`{}`)\nPERMISSIONS: `{} Permission`".format(
-                get_perm.title, chat_id, perm
-            ),
+            f"#LOCK\n\nCHAT: `{get_perm.title}` (`{chat_id}`)\nPERMISSIONS: `{perm} Permission`",
         )
 
     except Exception as e_f:
@@ -242,9 +238,7 @@ async def unlock_perm(c: TelePyroBot, m: Message):
             await m.delete()
             await c.send_message(
                 PRIVATE_GROUP_ID,
-                "#UNLOCK\n\nCHAT: `{}` (`{}`)\nPERMISSIONS: `All Permissions`".format(
-                    m.chat.title, m.chat.id
-                ),
+                f"#UNLOCK\n\nCHAT: `{m.chat.title}` (`{m.chat.id}`)\nPERMISSIONS: `All Permissions`",
             )
 
         except Exception as e_f:
@@ -328,9 +322,7 @@ async def unlock_perm(c: TelePyroBot, m: Message):
         await m.delete()
         await c.send_message(
             PRIVATE_GROUP_ID,
-            "#UNLOCK\n\nCHAT: `{}` (`{}`)\nPERMISSION: `{} Permission`".format(
-                m.chat.title, m.chat.id, uperm
-            ),
+            f"#UNLOCK\n\nCHAT: `{m.chat.title}` (`{m.chat.id}`)\nPERMISSION: `{uperm} Permission`",
         )
 
     except Exception as e_f:
@@ -360,9 +352,7 @@ async def view_perm(c: TelePyroBot, m: Message):
     v_perm = await c.get_chat(m.chat.id)
 
     def convert_to_emoji(val: bool):
-        if val is True:
-            return "✅"
-        return "❌"
+        return "✅" if val else "❌"
 
     vmsg = convert_to_emoji(v_perm.permissions.can_send_messages)
     vmedia = convert_to_emoji(v_perm.permissions.can_send_media_messages)

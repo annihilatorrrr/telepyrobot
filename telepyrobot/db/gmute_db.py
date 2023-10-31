@@ -22,10 +22,7 @@ def is_gmuted(sender_id):
     global GMUTE_USERS
     with INSERTION_LOCK:
         try:
-            if sender_id in GMUTE_USERS:
-                return True
-            else:
-                return None
+            return True if sender_id in GMUTE_USERS else None
         finally:
             SESSION.close()
         return
@@ -44,8 +41,7 @@ def gmute(sender):
 def ungmute(sender):
     global GMUTE_USERS
     with INSERTION_LOCK:
-        rem = SESSION.query(GMute).get(sender)
-        if rem:
+        if rem := SESSION.query(GMute).get(sender):
             GMUTE_USERS.remove(sender)
             SESSION.delete(rem)
             SESSION.commit()

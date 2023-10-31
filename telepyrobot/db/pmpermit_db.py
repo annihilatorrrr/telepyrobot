@@ -64,8 +64,7 @@ def get_msg_id(user_id):
         user = SESSION.query(MsgID).get(user_id)
         msg_id = None
         if user:
-            msg_id = user.msg_id
-            return msg_id
+            return user.msg_id
     finally:
         SESSION.close()
 
@@ -83,9 +82,9 @@ def del_whitelist(user_id):
 
 
 def get_whitelist(user_id):
-    user = SESSION.query(PMTable).get(user_id)
-    rep = ""
-    if user:
+    if user := SESSION.query(PMTable).get(user_id):
         rep = str(user.boolvalue)
+    else:
+        rep = ""
     SESSION.close()
     return rep

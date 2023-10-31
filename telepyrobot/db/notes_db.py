@@ -52,8 +52,7 @@ SELF_NOTES = {}
 def save_note(user_id, note_name, note_data, msgtype, file_id=None, file_ref=None):
     global SELF_NOTES
     with INSERTION_LOCK:
-        prev = SESSION.query(Notes).get((user_id, note_name))
-        if prev:
+        if prev := SESSION.query(Notes).get((user_id, note_name)):
             SESSION.delete(prev)
         note = Notes(
             user_id,
@@ -87,15 +86,12 @@ def get_all_notes(user_id):
     if not SELF_NOTES.get(user_id):
         SELF_NOTES[user_id] = {}
         return None
-    allnotes = list(SELF_NOTES[user_id])
-    allnotes.sort()
-    return allnotes
+    return sorted(SELF_NOTES[user_id])
 
 
 def get_num_notes(user_id):
     try:
-        num_notes = SESSION.query(Notes).count()
-        return num_notes
+        return SESSION.query(Notes).count()
     finally:
         SESSION.close()
 
@@ -103,8 +99,7 @@ def get_num_notes(user_id):
 def rm_note(user_id, note_name):
     global SELF_NOTES
     with INSERTION_LOCK:
-        note = SESSION.query(Notes).get((user_id, note_name))
-        if note:
+        if note := SESSION.query(Notes).get((user_id, note_name)):
             SESSION.delete(note)
             SESSION.commit()
             SELF_NOTES[user_id].pop(note_name)

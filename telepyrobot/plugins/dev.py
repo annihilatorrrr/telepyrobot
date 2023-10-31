@@ -63,11 +63,7 @@ async def eval(c: TelePyroBot, m: Message):
     else:
         evaluation = "Success"
 
-    final_output = (
-        "<b>EVAL</b>: <code>{}</code>\n\n<b>OUTPUT</b>:\n<code>{}</code> \n".format(
-            cmd, evaluation.strip()
-        )
-    )
+    final_output = f"<b>EVAL</b>: <code>{cmd}</code>\n\n<b>OUTPUT</b>:\n<code>{evaluation.strip()}</code> \n"
 
     if len(final_output) > MAX_MESSAGE_LENGTH:
         OUTPUT = clear_string(final_output)
@@ -86,8 +82,10 @@ async def eval(c: TelePyroBot, m: Message):
 
 async def aexec(code, c, m):
     exec(
-        f"async def __aexec(c: TelePyroBot, m: Message): "
-        + "".join(f"\n {l}" for l in code.split("\n"))
+        (
+            "async def __aexec(c: TelePyroBot, m: Message): "
+            + "".join(f"\n {l}" for l in code.split("\n"))
+        )
     )
     return await locals()["__aexec"](c, m)
 

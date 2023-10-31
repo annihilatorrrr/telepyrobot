@@ -25,9 +25,9 @@ async def cas(c: TelePyroBot, m: Message):
     args = m.text.split(None, 2)
     grpname = args[2]
     grptype = args[1]
-    user_id = "@Alita_Robot"
-
     if grptype == "basic":
+        user_id = "@Alita_Robot"
+
         try:
             await m.edit_text(f"__Trying to make a BasicGroup named:__`{grpname}`")
             await c.create_group(f"{grpname}", user_id)

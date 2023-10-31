@@ -17,10 +17,10 @@ Zip/Unzip operations using your Userbot!
 
 async def zipdir(path):
     if path.endswith("/"):
-        path = path[0:-1]
+        path = path[:-1]
     filename = path.split("/")[-1]
     shutil.make_archive(filename, "zip", path)
-    return filename + ".zip"
+    return f"{filename}.zip"
 
 
 async def unzipfiles(zippath):

@@ -45,7 +45,7 @@ async def remove_bg(c: TelePyroBot, m: Message):
         try:
             rmbg = RemoveBg(REMBG_API_KEY, "rembg_error.log")
             rmbg.remove_background_from_img_file(orig_pic)
-            remove_img = orig_pic + "_no_bg.png"
+            remove_img = f"{orig_pic}_no_bg.png"
             new_rembg_file = orig_pic.replace(".jpg", "_rembg_telepyrobot.png")
             shutil.move(remove_img, new_rembg_file)
             await c.send_document(

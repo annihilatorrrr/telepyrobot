@@ -20,8 +20,7 @@ Url Shortner Plugin for https://da.gd
 async def short_link(c: TelePyroBot, m: Message):
     input_str = m.text.split(None, 1)[1]
     sample_url = f"https://da.gd/s?url={input_str}"
-    response_api = requests.get(sample_url).text
-    if response_api:
+    if response_api := requests.get(sample_url).text:
         await m.edit_text(f"**Generated Link:**\n {response_api} for {input_str}.")
     else:
         await m.edit_text("something is wrong. please try again later.")
@@ -31,7 +30,7 @@ async def short_link(c: TelePyroBot, m: Message):
 async def unshort_link(c: TelePyroBot, m: Message):
     input_str = m.text.split(None, 1)[1]
     if not input_str.startswith("http"):
-        input_str = "http://" + input_str
+        input_str = f"http://{input_str}"
     if not input_str.startswith("http://da.gd"):
         await m.edit_text("`I can only unshort da.gd links`")
     r = requests.get(input_str, allow_redirects=False)

@@ -29,16 +29,15 @@ __help__ = f"""
 
 
 async def gen_chlog(repo, diff):
-    changelog = ""
     d_form = "%H:%M - %d/%m/%y"
-    for cl in repo.iter_commits(diff):
-        changelog += f"• [{cl.committed_datetime.strftime(d_form)}]: {cl.summary} <{cl.author}>\n"
-    return changelog
+    return "".join(
+        f"• [{cl.committed_datetime.strftime(d_form)}]: {cl.summary} <{cl.author}>\n"
+        for cl in repo.iter_commits(diff)
+    )
 
 
 async def initial_git(repo):
-    isexist = os.path.exists("telepyrobot-old")
-    if isexist:
+    if isexist := os.path.exists("telepyrobot-old"):
         shutil.rmtree("telepyrobot-old")
     os.mkdir("telepyrobot-old")
     os.rename("telepyrobot", "telepyrobot-old/telepyrobot")

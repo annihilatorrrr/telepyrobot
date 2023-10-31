@@ -30,8 +30,6 @@ async def github(c: TelePyroBot, m: Message):
         async with session.get(URL) as request:
             if request.status == 404:
                 return await m.edit_text(f"`{username} not found`", parse_mode="md")
-                return
-
             result = await request.json()
 
             url = result.get("html_url", None)

@@ -25,7 +25,7 @@ async def list_plugins(c: TelePyroBot, m: Message):
     for plug in plugins:
         mods += f"`{plug}`\n"
         mod_num += 1
-    all_plugins = f"<b><u>{mod_num}</u> Modules Currently Loaded:</b>\n\n" + mods
+    all_plugins = f"<b><u>{mod_num}</u> Modules Currently Loaded:</b>\n\n{mods}"
     await m.edit_text(all_plugins)
     return
 
@@ -37,7 +37,7 @@ async def help_me(c: TelePyroBot, m: Message):
     elif len(m.command) == 2:
         module_name = m.text.split(None, 1)[1]
         try:
-            HELP = f"**Help for __{module_name}__**\n\n" + HELP_COMMANDS[module_name]
+            HELP = f"**Help for __{module_name}__**\n\n{HELP_COMMANDS[module_name]}"
             await m.reply_text(HELP, parse_mode="md", disable_web_page_preview=True)
             await m.delete()
         except Exception as ef:

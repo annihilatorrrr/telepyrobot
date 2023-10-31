@@ -45,15 +45,15 @@ async def restart(c: TelePyroBot, m: Message):
 async def dynostats(c: TelePyroBot, m: Message):
     msg = await m.reply_text("Processing...!\n")
 
-    u_id = Heroku.account().id
     if HEROKU_API_KEY is not None:
+        u_id = Heroku.account().id
         headers = {
             "User-Agent": useragent,
             "Authorization": f"Bearer {HEROKU_API_KEY}",
             "Accept": "application/vnd.heroku+json; version=3.account-quotas",
         }
 
-        path = "/accounts/" + u_id + "/actions/get-quota"
+        path = f"/accounts/{u_id}/actions/get-quota"
         r = requests.get(heroku_api + path, headers=headers)
         if r.status_code != 200:
             await msg.edit("`Error: something bad happened`\n\n" f">.`{r.reason}`\n")

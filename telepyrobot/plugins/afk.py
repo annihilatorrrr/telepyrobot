@@ -103,7 +103,7 @@ async def afk_mentioned(c: TelePyroBot, m: Message):
             datime_since_afk = now - afk_time
             time_of_akf = float(datime_since_afk.seconds)
             days = time_of_akf // (24 * 3600)
-            time_of_akf = time_of_akf % (24 * 3600)
+            time_of_akf %= 24 * 3600
             hours = time_of_akf // 3600
             time_of_akf %= 3600
             minutes = time_of_akf // 60
@@ -123,46 +123,31 @@ async def afk_mentioned(c: TelePyroBot, m: Message):
             elif hours > 1:
                 afk_since = f"`{int(hours)}h{int(minutes)}m` **ago**"
             elif minutes > 0:
-                afk_since = f"`{int(minutes)}m{int(seconds)}s` **ago**"
+                afk_since = f"`{int(minutes)}m{seconds}s` **ago**"
             else:
-                afk_since = f"`{int(seconds)}s` **ago**"
+                afk_since = f"`{seconds}s` **ago**"
 
-        if "-" in str(m.chat.id):
-            cid = str(m.chat.id)[4:]
-        else:
-            cid = str(m.chat.id)
-
+        cid = str(m.chat.id)[4:] if "-" in str(m.chat.id) else str(m.chat.id)
         if cid in list(AFK_RESTIRECT) and int(AFK_RESTIRECT[cid]) >= int(time.time()):
             return
         AFK_RESTIRECT[cid] = int(time.time()) + DELAY_TIME
         if get["reason"]:
             if total_afk_time:
                 await m.reply_text(
-                    "Sorry, My Master {} is AFK right now!\nReason: {}\n\nAFK Since:{}".format(
-                        mention_markdown(OWNER_NAME, OWNER_ID),
-                        get["reason"],
-                        total_afk_time,
-                    )
+                    f'Sorry, My Master {mention_markdown(OWNER_NAME, OWNER_ID)} is AFK right now!\nReason: {get["reason"]}\n\nAFK Since:{total_afk_time}'
                 )
             else:
                 await m.reply_text(
-                    "Sorry, My Master {} is AFK right now!\nReason: {}".format(
-                        mention_markdown(OWNER_NAME, OWNER_ID), get["reason"]
-                    )
+                    f'Sorry, My Master {mention_markdown(OWNER_NAME, OWNER_ID)} is AFK right now!\nReason: {get["reason"]}'
                 )
+        elif total_afk_time:
+            await m.reply_text(
+                f"Sorry, My Master {mention_markdown(OWNER_NAME, OWNER_ID)} is AFK right now!\n\nAFK Since:{total_afk_time}"
+            )
         else:
-            if total_afk_time:
-                await m.reply_text(
-                    "Sorry, My Master {} is AFK right now!\n\nAFK Since:{}".format(
-                        mention_markdown(OWNER_NAME, OWNER_ID), total_afk_time
-                    )
-                )
-            else:
-                await m.reply_text(
-                    "Sorry, My Master {} is AFK right now!".format(
-                        mention_markdown(OWNER_NAME, OWNER_ID)
-                    )
-                )
+            await m.reply_text(
+                f"Sorry, My Master {mention_markdown(OWNER_NAME, OWNER_ID)} is AFK right now!"
+            )
 
         _, message_type = get_message_type(m)
         if message_type == Types.TEXT:
@@ -183,14 +168,7 @@ async def afk_mentioned(c: TelePyroBot, m: Message):
         )
         await c.send_message(
             PRIVATE_GROUP_ID,
-            "{}({}) mentioned you in {}({})\nText:\n`{}`\n\nTotal count: `{}`".format(
-                mention_markdown(m.from_user.first_name, m.from_user.id),
-                m.from_user.id,
-                m.chat.title,
-                m.chat.id,
-                text[:3500],
-                len(MENTIONED),
-            ),
+            f"{mention_markdown(m.from_user.first_name, m.from_user.id)}({m.from_user.id}) mentioned you in {m.chat.title}({m.chat.id})\nText:\n`{text[:3500]}`\n\nTotal count: `{len(MENTIONED)}`",
         )
     await m.stop_propagation()
 
@@ -219,13 +197,7 @@ async def no_longer_afk(c: TelePyroBot, m: Message):
             msg_text = x["text"]
             if len(msg_text) >= 11:
                 msg_text = f"{x['text']}..."
-            text += "- [{}](https://t.me/c/{}/{}) ({}): `{}`\n".format(
-                escape_markdown(x["user"]),
-                x["chat_id"],
-                x["message_id"],
-                x["chat"],
-                msg_text,
-            )
+            text += f'- [{escape_markdown(x["user"])}](https://t.me/c/{x["chat_id"]}/{x["message_id"]}) ({x["chat"]}): `{msg_text}`\n'
         await c.send_message(PRIVATE_GROUP_ID, text)
         MENTIONED = []
         afk_time = None
