@@ -103,25 +103,21 @@ async def get_id(c: TelePyroBot, m: Message):
             if rep.forward_from:
                 user_id = rep.forward_from.id
                 if rep.forward_from.last_name:
-                    user_name = (
-                        rep.forward_from.first_name + " " + rep.forward_from.last_name
-                    )
+                    user_name = f"{rep.forward_from.first_name} {rep.forward_from.last_name}"
                 else:
                     user_name = rep.forward_from.first_name
                 username = rep.forward_from.username
             else:
                 user_id = rep.from_user.id
                 if rep.from_user.last_name:
-                    user_name = rep.from_user.first_name + " " + rep.from_user.last_name
+                    user_name = f"{rep.from_user.first_name} {rep.from_user.last_name}"
                 else:
                     user_name = rep.from_user.first_name
                 username = rep.from_user.username
 
     if user_id:
         await m.edit_text(
-            "User Short Info:\n\n**User ID:** `{}`\n**Name:** `{}`\n**Username:** @{}".format(
-                user_id, user_name, username
-            )
+            f"User Short Info:\n\n**User ID:** `{user_id}`\n**Name:** `{user_name}`\n**Username:** @{username}"
         )
     elif file_id:
         await m.edit_text(f"**File's ID:** `{file_id}`")
@@ -134,10 +130,7 @@ async def jsonify(c: TelePyroBot, m: Message):
     the_real_message = None
     reply_to_id = None
 
-    if m.reply_to_message:
-        the_real_message = m.reply_to_message
-    else:
-        the_real_message = m
+    the_real_message = m.reply_to_message if m.reply_to_message else m
     try:
         await m.reply_text(f"<code>{the_real_message}</code>")
     except Exception as e:

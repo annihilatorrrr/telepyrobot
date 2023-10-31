@@ -23,11 +23,10 @@ async def mention(c: TelePyroBot, m: Message):
     args = m.text.split(None, 2)
     if len(args) == 3:
         name = args[1]
-        if isinstance(args[2], int):
-            user = args[2]
+        user = args[2]
+        if isinstance(user, int):
             rep = f"{mention_markdown(name, user)}"
         else:
-            user = args[2]
             rep = f'<a href="tg://resolve?domain={name}">{user}</a>'
         await m.edit_text(rep, disable_web_page_preview=True, parse_mode="html")
     else:

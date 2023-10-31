@@ -4,13 +4,12 @@ import re
 
 def cleanhtml(raw_html):
     cleanr = re.compile("<.*?>")
-    cleantext = re.sub(cleanr, "", raw_html)
-    return cleantext
+    return re.sub(cleanr, "", raw_html)
 
 
 def escape_markdown(text):
     escape_chars = r"\*_`\["
-    return re.sub(r"([%s])" % escape_chars, r"\\\1", text)
+    return re.sub(f"([{escape_chars}])", r"\\\1", text)
 
 
 def mention_html(user_id, name):

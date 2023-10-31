@@ -36,9 +36,7 @@ async def start_gmute(c: TelePyroBot, m: Message):
         await m.edit_text("`Successfully gmuted that person`")
         await c.send_message(
             PRIVATE_GROUP_ID,
-            "#GMUTE\nUser: {} in Chat {}".format(
-                mention_markdown(user_first_name, user_id), m.chat.title
-            ),
+            f"#GMUTE\nUser: {mention_markdown(user_first_name, user_id)} in Chat {m.chat.title}",
         )
     return
 
@@ -59,9 +57,7 @@ async def end_gmute(c: TelePyroBot, m: Message):
         await m.edit_text("`Successfully ungmuted that person`")
         await c.send_message(
             PRIVATE_GROUP_ID,
-            "#UNGMUTE\nUser: {} in Chat {}".format(
-                mention_markdown(user_first_name, user_id), m.chat.title
-            ),
+            f"#UNGMUTE\nUser: {mention_markdown(user_first_name, user_id)} in Chat {m.chat.title}",
         )
     return
 

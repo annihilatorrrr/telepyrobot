@@ -31,11 +31,11 @@ async def pin_message(c: TelePyroBot, m: Message):
             return
         pin_loud = m.text.split(None, 1)
         if m.reply_to_message:
-            disable_notification = True
-
-            if len(pin_loud) >= 2 and pin_loud[1] in ["alert", "notify", "loud"]:
-                disable_notification = False
-
+            disable_notification = len(pin_loud) < 2 or pin_loud[1] not in [
+                "alert",
+                "notify",
+                "loud",
+            ]
             pinned_event = await c.pin_chat_message(
                 m.chat.id,
                 m.reply_to_message.message_id,

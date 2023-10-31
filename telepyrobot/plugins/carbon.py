@@ -54,9 +54,8 @@ async def carbon_api(c: TelePyroBot, m: Message):
             caption="Carbon Made by: @TelePyroBot",
             reply_to_message_id=ReplyCheck(m),
         )
-        await m.delete()
     else:
         await m.edit_text("Image Couldn't be retreived")
-        await m.delete()
+    await m.delete()
     os.remove(filename)
     return

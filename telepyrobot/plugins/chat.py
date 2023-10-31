@@ -95,10 +95,7 @@ async def setchatname(c: TelePyroBot, m: Message):
         return
     chat_id = m.chat.id
     chat_title = m.text.split(None, 1)
-    if m.reply_to_message:
-        chat_title = m.reply_to_message.text
-    else:
-        chat_title = chat_title[1]
+    chat_title = m.reply_to_message.text if m.reply_to_message else chat_title[1]
     try:
         await c.set_chat_title(chat_id, chat_title)
         await m.edit_text(f"<b>Changed Chat Name to:</b> <code>{chat_title}</code>")
@@ -114,10 +111,7 @@ async def setchatdesc(c: TelePyroBot, m: Message):
         return
     chat_id = m.chat.id
     chat_desc = m.text.split(None, 1)
-    if m.reply_to_message:
-        chat_desc = m.reply_to_message.text
-    else:
-        chat_desc = chat_desc[1]
+    chat_desc = m.reply_to_message.text if m.reply_to_message else chat_desc[1]
     try:
         await c.set_chat_description(chat_id, chat_desc)
         await m.edit_text(

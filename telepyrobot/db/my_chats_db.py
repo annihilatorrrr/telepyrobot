@@ -52,10 +52,11 @@ def get_all_chats():
 def __load_mychats():
     global MY_ALL_CHATS, MY_ADMIN_CHATS
     try:
-        MY_ALL_CHATS = {}
         qall = SESSION.query(MyChats).all()
-        for x in qall:
-            MY_ALL_CHATS[x.chat_id] = {"name": x.chat_name, "username": x.chat_username}
+        MY_ALL_CHATS = {
+            x.chat_id: {"name": x.chat_name, "username": x.chat_username}
+            for x in qall
+        }
     finally:
         SESSION.close()
 

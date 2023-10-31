@@ -53,16 +53,15 @@ async def save_note(c: TelePyroBot, m: Message):
 
     if not note_name:
         await m.edit_text(
-            "```" + m.text + "```\n\nError: You must give a name for this note!"
+            f"```{m.text}"
+            + "```\n\nError: You must give a name for this note!"
         )
         return
 
     if data_type == Types.TEXT:
         teks = text
         if not teks:
-            await m.edit_text(
-                "```" + m.text + "```\n\nError: There is no text in here!"
-            )
+            await m.edit_text(f"```{m.teks}" + "```\n\nError: There is no text in here!")
             return
 
     db.save_note(m.from_user.id, note_name, text, data_type, content, file_ref)
@@ -82,8 +81,7 @@ async def get_note(c: TelePyroBot, m: Message):
         return
 
     if getnotes["type"] == Types.TEXT:
-        teks = getnotes.get("value")
-        if teks:
+        if teks := getnotes.get("value"):
             await m.edit_text(teks)
     elif getnotes["type"] in (
         Types.STICKER,

@@ -1,6 +1,8 @@
 import os
 
 
+
+
 class Config:
     LOGGER = True
     APP_ID = int(os.environ.get("APP_ID", 12345))
@@ -18,7 +20,7 @@ class Config:
     G_DRIVE_CLIENT_ID = os.environ.get("G_DRIVE_CLIENT_ID", None)
     G_DRIVE_CLIENT_SECRET = os.environ.get("G_DRIVE_CLIENT_SECRET", None)
     OWNER_ID = int(os.environ.get("OWNER_ID", "716243352"))
-    SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
+    SUDO_USERS = {int(x) for x in os.environ.get("SUDO_USERS", "").split()}
     TG_MAX_SELECT_LEN = int(os.environ.get("TG_MAX_SELECT_LEN", "100"))
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
@@ -28,6 +30,7 @@ class Config:
     REMBG_API_KEY = os.environ.get("REMBG_API_KEY", None)
     MEGANZ_PASSWORD = os.environ.get("MEGANZ_PASSWORD", None)
     MEGANZ_EMAIL = os.environ.get("MEGANZ_EMAIL", None)
+
 
 
 class Production(Config):

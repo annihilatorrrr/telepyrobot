@@ -71,7 +71,6 @@ async def google_rs(c: TelePyroBot, m: Message):
                 await m.delete()"""
             await m.edit_text("<i>Currently not supported!</i>")
             return
-            dis_loc = img_file
         base_url = "http://www.google.com"
         if dis_loc:
             search_url = f"{base_url}/searchbyimage/upload"

@@ -37,8 +37,8 @@ async def download_http_msg(m, status_message):
         speed = downloader.get_speed(human=True)
         elapsed_time = round(diff) * 1000
         progress_str = "**[{0}{1}]**\n**Progress:** __{2}%__".format(
-            "".join(["●" for i in range(math.floor(percentage / 5))]),
-            "".join(["○" for i in range(20 - math.floor(percentage / 5))]),
+            "".join(["●" for _ in range(math.floor(percentage / 5))]),
+            "".join(["○" for _ in range(20 - math.floor(percentage / 5))]),
             round(percentage, 2),
         )
         estimated_total_time = downloader.get_eta(human=True)
@@ -65,7 +65,6 @@ async def download_http_msg(m, status_message):
             pass
         except Exception as e:
             LOGGER.info(str(e))
-            pass
     if os.path.exists(download_file_path):
         new_file_name = urllib.parse.unquote(download_file_path)
         shutil.move(download_file_path, new_file_name)  # Change file Name
@@ -96,8 +95,8 @@ async def download_http_link(status_message, dlurl):
         speed = downloader.get_speed(human=True)
         elapsed_time = round(diff) * 1000
         progress_str = "**[{0}{1}]**\n**Progress:** __{2}%__".format(
-            "".join(["●" for i in range(math.floor(percentage / 5))]),
-            "".join(["○" for i in range(20 - math.floor(percentage / 5))]),
+            "".join(["●" for _ in range(math.floor(percentage / 5))]),
+            "".join(["○" for _ in range(20 - math.floor(percentage / 5))]),
             round(percentage, 2),
         )
         estimated_total_time = downloader.get_eta(human=True)
@@ -124,7 +123,6 @@ async def download_http_link(status_message, dlurl):
             pass
         except Exception as e:
             LOGGER.info(str(e))
-            pass
     if os.path.exists(download_file_path):
         new_file_name = urllib.parse.unquote(download_file_path)
         shutil.move(download_file_path, new_file_name)  # Change file Name

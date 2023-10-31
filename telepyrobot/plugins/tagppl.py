@@ -21,19 +21,15 @@ Tag people Easily!
 )
 async def adminlist(c: TelePyroBot, m: Message):
     toolong = False
-    if len(m.text.split()) >= 2:
-        chat = m.text.split(None, 1)[1]
-        grup = await c.get_chat(chat)
-    else:
-        chat = m.chat.id
-        grup = await c.get_chat(chat)
+    chat = m.text.split(None, 1)[1] if len(m.text.split()) >= 2 else m.chat.id
+    grup = await c.get_chat(chat)
     alladmins = c.iter_chat_members(chat, filter="administrators")
     creator = []
     admin = []
     badmin = []
     async for a in alladmins:
         try:
-            nama = a.user.first_name + " " + a.user.last_name
+            nama = f"{a.user.first_name} {a.user.last_name}"
         except:
             nama = a.user.first_name
         if nama is None:
@@ -89,10 +85,7 @@ async def adminlist(c: TelePyroBot, m: Message):
 )
 async def everyone(c: TelePyroBot, m: Message):
     await m.delete()
-    if len(m.text.split()) >= 2:
-        text = m.text.split(None, 1)[1]
-    else:
-        text = "Hi all 🙃"
+    text = m.text.split(None, 1)[1] if len(m.text.split()) >= 2 else "Hi all 🙃"
     kek = c.iter_chat_members(m.chat.id)
     async for a in kek:
         if not a.user.is_bot:
@@ -110,17 +103,13 @@ async def everyone(c: TelePyroBot, m: Message):
     filters.command(["bots", "listbots"], COMMAND_HAND_LER) & filters.me
 )
 async def listbots(c: TelePyroBot, m: Message):
-    if len(m.text.split()) >= 2:
-        chat = m.text.split(None, 1)[1]
-        grup = await c.get_chat(chat)
-    else:
-        chat = m.chat.id
-        grup = await c.get_chat(chat)
+    chat = m.text.split(None, 1)[1] if len(m.text.split()) >= 2 else m.chat.id
+    grup = await c.get_chat(chat)
     getbots = c.iter_chat_members(chat)
     bots = []
     async for a in getbots:
         try:
-            nama = a.user.first_name + " " + a.user.last_name
+            nama = f"{a.user.first_name} {a.user.last_name}"
         except:
             nama = a.user.first_name
         if nama is None:

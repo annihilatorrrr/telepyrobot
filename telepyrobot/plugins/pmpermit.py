@@ -52,9 +52,7 @@ async def pm_block(c: TelePyroBot, m: Message):
             await asyncio.sleep(2)
             await c.send_message(
                 PRIVATE_GROUP_ID,
-                "{} **wants to contact you in PM**".format(
-                    mention_markdown(m.from_user.first_name, m.from_user.id)
-                ),
+                f"{mention_markdown(m.from_user.first_name, m.from_user.id)} **wants to contact you in PM**",
             )
             return
     except Exception as ef:
@@ -73,18 +71,14 @@ async def approve_pm(c: TelePyroBot, m: Message):
     db.set_whitelist(user_id, True)
     user = await c.get_users(user_id)
     await m.edit_text(
-        "**__PM permission was approved__** for {}".format(
-            mention_markdown(user.first_name, user_id)
-        )
+        f"**__PM permission was approved__** for {mention_markdown(user.first_name, user_id)}"
     )
     if db.get_msg_id(m.chat.id):
         old_msg_id = db.get_msg_id(m.chat.id)
         await c.delete_messages(chat_id=m.chat.id, message_ids=old_msg_id)
     await c.send_message(
         PRIVATE_GROUP_ID,
-        "{} **is approved to contact you in PM!**".format(
-            mention_markdown(user.first_name, user_id)
-        ),
+        f"{mention_markdown(user.first_name, user_id)} **is approved to contact you in PM!**",
     )
     await asyncio.sleep(5)
     await m.delete()
@@ -96,23 +90,16 @@ async def approve_pm(c: TelePyroBot, m: Message):
     & filters.private
 )
 async def revoke_pm_block(c: TelePyroBot, m: Message):
-    if m.chat.type == "private":
-        user_id = m.chat.id
-    else:
-        user_id = m.text.split()[1]
+    user_id = m.chat.id if m.chat.type == "private" else m.text.split()[1]
     db.del_whitelist(user_id)
     user = await c.get_users(user_id)
     await m.edit_text(
-        "__**PM permission was revoked for**__ {}".format(
-            mention_markdown(user.first_name, user_id)
-        )
+        f"__**PM permission was revoked for**__ {mention_markdown(user.first_name, user_id)}"
     )
     user_id = m.chat.id
     await c.send_message(
         PRIVATE_GROUP_ID,
-        "{}'s **permission to contact you in PM has been revoked!**".format(
-            mention_markdown(user.first_name, user_id)
-        ),
+        f"{mention_markdown(user.first_name, user_id)}'s **permission to contact you in PM has been revoked!**",
     )
     await asyncio.sleep(5)
     await m.delete()
